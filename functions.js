@@ -22,6 +22,7 @@ function createPlayer(teamColor,x,y){
 	}
 }
 
+
 function createPlayerElement(fieldElement,player) {
 		var playerElement= document.createElement("div");
 		setElementStyle(playerElement,"backgroundColor",player.appearance["background-color"]);
