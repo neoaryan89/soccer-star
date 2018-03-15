@@ -3,6 +3,10 @@
 var game = {
 	teams: [],
 	width:100*10,
+	currentPlayer: {
+		team:0,
+		player:3
+	},
 	field:{
 		color:"green",
 		length:50*10,
@@ -49,6 +53,36 @@ var game = {
     	"shape":"circle",
     	"color":"white",
     },
+    doFunctionForEveryPlayer: function(fn){
+    for (i=0; i< this.teams.length; i++){
+	  for (x=0; x<this.teams[i].players.length;x++){
+      fn(this.teams[i].players[x],x,i);
+	  }	
+    }
+
+    },
+    setCurrentPlayer: function (currentPlayer){
+    this.currentPlayer = currentPlayer;
+    this.doFunctionForEveryPlayer(
+    	function(player){
+    	player.element.style.boxShadow = "none";	
+    	}	
+	);
+	 
+    this.teams[currentPlayer.team].players[currentPlayer.player].element.style.boxShadow= "0 0 0 10px rgba(0,0,0,.3)";
+    },
+    initEvents: function(){
+    var self=this;
+    this.doFunctionForEveryPlayer(
+    	function(player,playerIndex,teamIndex){
+    	player.element.addEventListener('click', function(){
+    	self.setCurrentPlayer({team:teamIndex, player:playerIndex});
+    	});
+    	}	
+
+	);	
+
+    },
     init: function() {
     	// field
     	this.field.element = document.createElement("div");
@@ -71,8 +105,12 @@ var game = {
      createBallElement(this.field.element,this.ball);      
     //Line
     createLineElement(this.field.element,this.line);
-    }
+     
+     this.setCurrentPlayer({team:0, player: 2});
+     
+     this.initEvents();
 
+    }
 }
 game.init();
 

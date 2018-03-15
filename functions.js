@@ -31,7 +31,9 @@ function createPlayerElement(fieldElement,player) {
 		setElementStyle(playerElement,"width","50px");
 		setElementStyle(playerElement,"top",player.y);
 		setElementStyle(playerElement,"left",player.x);
+        return playerElement; 
 }
+
 
  function setElementbyId(elementId) {
  	return document.getElementById(elementId);
@@ -44,8 +46,9 @@ function getRandomNumber(){
 function createPlayers(fieldElement, numberOfPlayers,team){
 	for (i=0; i< numberOfPlayers; i++){
 		var player=createPlayer(team.color,getRandomNumber(),getRandomNumber());
+		player.element= createPlayerElement(fieldElement,player);
 		team.players.push(player);
-		createPlayerElement(fieldElement,player);
+		
 	}
 	return team.players;
 }
