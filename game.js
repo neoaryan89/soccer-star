@@ -2,7 +2,6 @@
 
 var game = {
 	teams: [],
-	width:100*10,
 	currentPlayer: {
 		team:0,
 		player:3
@@ -10,6 +9,7 @@ var game = {
 	field:{
 		color:"green",
 		length:50*10,
+		width:100*10,
 		calculateLengthPixels: function() {
 			return addPxToValue(this.length); //returns "100px"
 		},
@@ -66,22 +66,42 @@ var game = {
     this.doFunctionForEveryPlayer(
     	function(player){
     	player.element.style.boxShadow = "none";	
+    	player.element.draggable = false;
     	}	
-	);
-	 
+	);	 
     this.teams[currentPlayer.team].players[currentPlayer.player].element.style.boxShadow= "0 0 0 10px rgba(0,0,0,.3)";
+    this.teams[currentPlayer.team].players[currentPlayer.player].element.draggable = true ;
     },
     initEvents: function(){
     var self=this;
     this.doFunctionForEveryPlayer(
     	function(player,playerIndex,teamIndex){
-    	player.element.addEventListener('click', function(){
-    	self.setCurrentPlayer({team:teamIndex, player:playerIndex});
-    	});
+      		//player change listener
+    		self.addEventListener(player,"click", function(){
+    			//check if the player is in the current team
+    			if (teamIndex===self.currentPlayer.team) {   			
+    				self.setCurrentPlayer({team:teamIndex, player:playerIndex});    			    		   
+    			}
+    		});
+    		//player dragstart listener
+    	self.addEventListener(player,"dragstart", function(event){    			    		   
+    		if (playerIndex===self.currentPlayer.player){    		
+    		console.log("I am dragging");
+    	}
+    		});
+    		//player dragend listener
+    	self.addEventListener(player,"dragend", function(event){    			    		   
+    		if (playerIndex===self.currentPlayer.player){    		
+    		console.log("I am done dragging",event);
+    	    player.element.style.top=parseInt(player.element.style.top.replace("px","")) + event.offsetY + "px" ; 
+    		player.element.style.left=parseInt(player.element.style.left.replace("px","")) + event.offsetX + "px" ;
+    	}
+    		});
     	}	
-
 	);	
-
+    },
+    addEventListener: function(player,event,fn){
+     	player.element.addEventListener(event,fn);
     },
     init: function() {
     	// field
@@ -98,8 +118,8 @@ var game = {
 	 //Teams	
 	 this.teams.push(createTeam([],"red",0)),
      this.teams.push(createTeam([],"blue",0))
-     this.teams[0].players.concat(createPlayers(this.field.element,7,this.teams[0]));
- 	 this.teams[1].players.concat(createPlayers(this.field.element,7,this.teams[1]));   
+     this.teams[0].players.concat(createPlayers(this.field.element,7,this.teams[0],this.field.width,this.field.length));
+ 	 this.teams[1].players.concat(createPlayers(this.field.element,7,this.teams[1],this.field.width,this.field.length));   
      
      //Ball
      createBallElement(this.field.element,this.ball);      

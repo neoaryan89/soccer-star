@@ -31,6 +31,7 @@ function createPlayerElement(fieldElement,player) {
 		setElementStyle(playerElement,"width","50px");
 		setElementStyle(playerElement,"top",player.y);
 		setElementStyle(playerElement,"left",player.x);
+        setElementStyle(playerElement,"transform","translate(-50%,-50%)");
         return playerElement; 
 }
 
@@ -39,13 +40,13 @@ function createPlayerElement(fieldElement,player) {
  	return document.getElementById(elementId);
  }
 
-function getRandomNumber(){
-	return Math.floor(Math.random()*75) + "%";
+function getRandomNumber(baseWidth){
+	return Math.random() * baseWidth + "px";
 }
 
-function createPlayers(fieldElement, numberOfPlayers,team){
+function createPlayers(fieldElement, numberOfPlayers,team,fieldWidth,fieldLength){
 	for (i=0; i< numberOfPlayers; i++){
-		var player=createPlayer(team.color,getRandomNumber(),getRandomNumber());
+		var player=createPlayer(team.color,getRandomNumber(fieldWidth),getRandomNumber(fieldLength));
 		player.element= createPlayerElement(fieldElement,player);
 		team.players.push(player);
 		
