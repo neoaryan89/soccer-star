@@ -76,8 +76,8 @@ function createBallElement(fieldElement,ball){
 		setElementStyle(BallElement,"top",ball.y);
 		setElementStyle(BallElement,"left",ball.x);
         setElementStyle(BallElement,"border-radius","50%");
-        setElementStyle(BallElement,"transform","translate(-50%,-50%)"); 
- 
+        setElementStyle(BallElement,"transform","translate(-50%,-50%)");  		
+ 		return BallElement;
 }
 
 function createGoalPostElement(fieldElement,post){

@@ -67,9 +67,26 @@ var game = {
 			);	 
 			this.teams[currentPlayer.team].players[currentPlayer.player].element.style.boxShadow= "0 0 0 10px rgba(0,0,0,.3)";
 			this.teams[currentPlayer.team].players[currentPlayer.player].element.draggable = true ;
+			this.currentPlayer.canKick = this.canCurrentPlayerKickTheBall();             
     },
+    getOtherTeam: function(){  		 
+  		var currentTeam =   this.currentPlayer.team;
+  		return currentTeam == 0 ? 1 : 0;
+    }, 
+    limitMovement: function(offset){
+ 		return offset > 100 ? 100 : offset ;
+    },
+    canCurrentPlayerKickTheBall: function() {
+    	var currentPlayer = this.teams[this.currentPlayer.team].players[this.currentPlayer.player].element;
+		var ball = this.ball.element;
+		var isYinside = Math.abs(ball.offsetTop - currentPlayer.offsetTop) <=50;
+		var isXinside = Math.abs(ball.offsetLeft - currentPlayer.offsetLeft) <=50;
+		console.log(isYinside,isXinside);    
+    	return isYinside && isXinside;
+    },  
     initEvents: function(){
 			var self=this;
+			console.log(self.currentPlayer);
 			this.doFunctionForEveryPlayer(
 				function(player,playerIndex,teamIndex){
 					//player change listener
@@ -88,8 +105,10 @@ var game = {
 					//player dragend listener
 					self.addEventListener(player,"dragend", function(event){    			    		   
 						if (playerIndex===self.currentPlayer.player){
-							player.element.style.top=parseInt(player.element.style.top.replace("px","")) + event.offsetY + "px" ; 
-							player.element.style.left=parseInt(player.element.style.left.replace("px","")) + event.offsetX + "px" ;
+							player.element.style.top=parseInt(player.element.style.top.replace("px","")) +self.limitMovement(event.offsetY) + "px" ; 
+							player.element.style.left=parseInt(player.element.style.left.replace("px","")) + self.limitMovement(event.offsetX) + "px" ;
+							//Changing player to get other team and get a random player from the other team 
+							self.setCurrentPlayer({team:self.getOtherTeam(), player:self.currentPlayer.player});
 						}
 					});
 			});	
@@ -115,7 +134,8 @@ var game = {
      	this.teams[0].players.concat(createPlayers(this.field.element,7,this.teams[0],this.field.width,this.field.length));
  	 		this.teams[1].players.concat(createPlayers(this.field.element,7,this.teams[1],this.field.width,this.field.length));   
 			//Ball
-			createBallElement(this.field.element,this.ball);      
+			var Ball = createBallElement(this.field.element,this.ball);      
+			this.ball.element = Ball;
 			//Line
 			createLineElement(this.field.element,this.line);
 
