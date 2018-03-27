@@ -86,7 +86,28 @@ var game = {
     },  
     initEvents: function(){
 			var self=this;
-			console.log(self.currentPlayer);
+			window.addEventListener("keydown",function(event){
+				self.moveBall();
+			if	(!self.canCurrentPlayerKickTheBall()){
+				return;
+			}
+				switch(event.key){
+					case "ArrowUp":
+						console.log("up");
+						break;
+					case "ArrowDown":
+						console.log("down");
+						break;
+					case "ArrowLeft":
+						console.log("left");
+						break;
+					case "ArrowRight":
+						console.log("right");
+						break;
+					default:
+						console.log("default");	
+				}					
+			});
 			this.doFunctionForEveryPlayer(
 				function(player,playerIndex,teamIndex){
 					//player change listener
@@ -112,6 +133,13 @@ var game = {
 						}
 					});
 			});	
+    },
+    moveBall:function(direction){
+    	var ball=this.ball.element;
+    	var x = ball.offsetLeft;
+    	var y = ball.offsetTop;
+    	console.log(x,y);
+		ball.style.top="20px" ; 
     },
     addEventListener: function(player,event,fn){
      	player.element.addEventListener(event,fn);
