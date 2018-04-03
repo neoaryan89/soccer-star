@@ -108,7 +108,13 @@ function createLineElement(fieldElement){
 	setElementStyle(LineElement,"top",0);
 	setElementStyle(LineElement,"left","50%");
 	setElementStyle(LineElement,"width","10px");
-} 
+}
+function isInRange(target,min,max){
+		return target >= min && target <= max;
+}
+function getRange(start,offset){
+		return[start,start+offset]; 
+}
 
 
 

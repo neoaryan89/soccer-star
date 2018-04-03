@@ -47,7 +47,7 @@ var game = {
 		element: null
 	}, //Close field
 	ball: {
-		"x": "50%",
+		"x": "5%",
 		"y": "50%",
 		"shape": "circle",
 		"color": "white",
@@ -135,6 +135,18 @@ var game = {
 				});
 			});
 	},
+	checkIfGoal: function(ballX,ballY){
+	for (var i=this.field.goalPosts.length-1;i >=0;i--){
+		var goalPost=this.field.goalPosts[i];
+		var XRange=getRange(goalPost.goalPostElement.offsetLeft,goalPost.goalPostElement.offsetWidth);
+		var YRange=getRange(goalPost.goalPostElement.offsetTop,goalPost.goalPostElement.offsetHeight);
+		console.log(XRange,YRange);	
+		if (isInRange,){
+
+		}
+	}		
+	},	
+	//Check if ball is in range 
 	moveBall: function (direction) {
 		var ball = this.ball.element;
 		var x = ball.offsetLeft;
@@ -154,6 +166,9 @@ var game = {
 				ball.style.left = x + 100 + "px";
 				break;
 		}
+		this.checkIfGoal(0,0);
+		//calling functions for score
+		// SIngle responsibility principle
 		this.setCurrentPlayer({ team: this.getOtherTeam(), player: this.currentPlayer.player });
 	},
 	addEventListener: function (player, event, fn) {
