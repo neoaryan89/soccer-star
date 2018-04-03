@@ -31,7 +31,8 @@ function createPlayerElement(fieldElement,player) {
 		setElementStyle(playerElement,"width","50px");
 		setElementStyle(playerElement,"top",player.y);
 		setElementStyle(playerElement,"left",player.x);
-        setElementStyle(playerElement,"transform","translate(-50%,-50%)");
+		setElementStyle(playerElement,"transition","all 450ms ease-out");
+		setElementStyle(playerElement,"transform","translate(-50%,-50%)");
         return playerElement; 
 }
 
@@ -75,6 +76,7 @@ function createBallElement(fieldElement,ball){
 		setElementStyle(BallElement,"width","50px");
 		setElementStyle(BallElement,"top",ball.y);
 		setElementStyle(BallElement,"left",ball.x);
+		setElementStyle(BallElement,"transition","all 450ms ease-out");
         setElementStyle(BallElement,"border-radius","50%");
         setElementStyle(BallElement,"transform","translate(-50%,-50%)");  		
  		return BallElement;
@@ -95,7 +97,8 @@ function createGoalPostElement(fieldElement,post){
     }
 		setElementStyle(PostElement,"transform","translateY(-50%)");
         setElementStyle(PostElement,"background-color",post.styles.backgroundColor);  
- }
+	return PostElement; 
+	}
 
 function createLineElement(fieldElement){
 	var LineElement=document.createElement("div");
